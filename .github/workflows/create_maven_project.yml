@@ -1,0 +1,44 @@
+name: Create Maven Project
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      groupId:
+        description: 'Maven Group ID'
+        required: true
+      artifactId:
+        description: 'Maven Artifact ID'
+        required: true
+      projectName:
+        description: 'Project Name'
+        required: true
+ 
+jobs:
+  create_project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prompt for user input
+        id: input
+        run: |
+          echo "::set-output name=groupId::${{ github.event.inputs.groupId }}"
+          echo "::set-output name=artifactId::${{ github.event.inputs.artifactId }}"
+          echo "::set-output name=projectName::${{ github.event.inputs.projectName }}"
+ 
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11' # Specify the Java version you want to use
+          distribution: 'adopt'
+ 
+      - name: Create Maven project
+        run: mvn archetype:generate \
+             -DgroupId="${{ steps.input.outputs.groupId }}" \
+             -DartifactId="${{ steps.input.outputs.artifactId }}" \
+             -DarchetypeArtifactId=maven-archetype-quickstart \
+             -DinteractiveMode=false \
+             -DarchetypeVersion=1.4 \
+             -Dversion=1.0-SNAPSHOT \
+             -Dpackage="${{ steps.input.outputs.groupId }}.${{ steps.input.outputs.artifactId }}"
