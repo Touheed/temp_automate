@@ -23,9 +23,9 @@ jobs:
       - name: Prompt for user input
         id: input
         run: |
-          echo "::set-output name=groupId::${{ github.event.inputs.groupId }}"
-          echo "::set-output name=artifactId::${{ github.event.inputs.artifactId }}"
-          echo "::set-output name=projectName::${{ github.event.inputs.projectName }}"
+          echo "::set-output name=groupId::${{ inputs.groupId }}"
+          echo "::set-output name=artifactId::${{inputs.artifactId }}"
+          echo "::set-output name=projectName::${{ inputs.projectName }}"
  
       - name: Checkout code
         uses: actions/checkout@v2
