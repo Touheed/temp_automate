@@ -6,12 +6,15 @@ on:
       groupId:
         description: 'Maven Group ID'
         required: true
+        default: 'com.tek'
       artifactId:
         description: 'Maven Artifact ID'
         required: true
+        default: 'com.tek'
       projectName:
         description: 'Project Name'
         required: true
+        default: 'tek'
  
 jobs:
   create_project:
@@ -35,10 +38,10 @@ jobs:
  
       - name: Create Maven project
         run: mvn archetype:generate \
-             -DgroupId="${{ steps.input.outputs.groupId }}" \
-             -DartifactId="${{ steps.input.outputs.artifactId }}" \
+             -DgroupId="${{ inputs.groupId }}" \
+             -DartifactId="${{ inputs.artifactId }}" \
              -DarchetypeArtifactId=maven-archetype-quickstart \
              -DinteractiveMode=false \
              -DarchetypeVersion=1.4 \
              -Dversion=1.0-SNAPSHOT \
-             -Dpackage="${{ steps.input.outputs.groupId }}.${{ steps.input.outputs.artifactId }}"
+             -Dpackage="${{ inputs.groupId }}.${{ inputs.artifactId }}"
